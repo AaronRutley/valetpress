@@ -51,7 +51,6 @@ fi
 - Have `myproject.dev` running in just a few seconds
 
 
-
 `vp create`
 - Will ask for the name of your project
 - Clone down a starter repo, run `npm install` & run `gulp`.
@@ -75,9 +74,7 @@ fi
 - Will display a summary of available commands
 
 ##  Notes
-
-- I don't recommend using complex project names use (project1) not (my-project_name) for now.
 - This is very much a proof of concept at the moment
-- If there's interest I'll make this script into a tool that is much more flexible
+- If there's interest I'll make this script into a tool that's easier to install
 - Hit me up here on github, twitter or email if you're interested in helping out!
 
