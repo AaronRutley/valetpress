@@ -43,6 +43,30 @@ alias vp='function _vp(){
 		gulp
 	fi
 
+	if [ $1 = "clone" ]; then
+		cd ~/Sites
+		echo "${BOLD}Valet Press, clone new site from a repo ${NONE}"
+		echo "${YELLOW}Project Name:${NONE}"
+		read project_name
+		echo "${YELLOW}Repo To Clone into wp-content:${NONE}"
+		read repo_url
+		mkdir "$project_name"
+		cd "$project_name"
+		mysql -uroot -e "create database $project_name"
+		wp core download
+		wp core config --dbname="$project_name" --dbuser=root --dbhost=127.0.0.1
+		wp core install --url="$project_name".dev --title="$project_name".dev --admin_user="$project_name"  --admin_password=password --admin_email=wordpress@wordpress.org
+		rm -rf wp-content
+		git clone $repo_url wp-content
+		cd wp-content
+		wp plugin update --all
+		wp plugin activate --all
+		echo "${GREEN}Success:${NONE} Project Created: ${UNDERLINE}http://$project_name.dev/${NONE}"
+		echo "L: ${UNDERLINE}http://$project_name.dev/wp-admin/${NONE}"
+		echo "U: $project_name"
+		echo "P: password"
+	fi
+
 	if [ $1 = "empty" ]; then
 		cd ~/Sites
 		echo "${BOLD}Valet Press, create empty new site -- ${NONE}"
@@ -66,8 +90,8 @@ alias vp='function _vp(){
 
 	if [ $1 = "start" ]; then
 		cd ~/Sites
-		echo "${BOLD}Valet Press, start working on a project -- ${NONE}"
-		ls -l
+		echo "${BOLD}Valet Press, start working on a project ${NONE}"
+		ls -d */ | cut -f1 -d'/'
 		echo "${YELLOW}Project Name:${NONE}"
 		read project_name
 		cd $project_name
@@ -88,7 +112,22 @@ alias vp='function _vp(){
 
 	if [ $1 = "delete" ]; then
 		cd ~/Sites
-		echo "${YELLOW}Delete option will be added soon${NONE}"
+		echo "${BOLD}${BOLD}Valet Press, delete a project ${NONE}"
+		ls -d */ | cut -f1 -d'/'
+		echo "${YELLOW}Project Name:${NONE}"
+		read project_name
+		rm -rf $project_name
+		mysql -uroot -e "DROP DATABASE IF EXISTS  $project_name"
+		echo "${GREEN}Sucess: $project_name deleted${NONE}"
+	fi
+
+	if [ $1 = "help" ]; then
+		echo "${YELLOW}ValetPress Commands:${NONE}"
+		echo "${BOLD} vp empty${NONE}  to create a empty WP site with the 2016 theme"
+		echo "${BOLD} vp create${NONE} to create a WP site from your starter git repo"
+		echo "${BOLD} vp clone${NONE}  to create a WP site from an existing git repo"
+		echo "${BOLD} vp start${NONE}  to start working on an existing project / theme"
+		echo "${BOLD} vp delete${NONE} to delete an existing WP project"
 	fi
 
 };_vp'
