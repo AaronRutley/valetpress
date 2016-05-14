@@ -71,8 +71,8 @@ fi
 - Delete the database for that project
 - Delete the directory for that project
 
-`vp help` 
-- Display a summary of available commands
+`vp help`
+- Will display a summary of available commands
 
 ##  Notes
 
