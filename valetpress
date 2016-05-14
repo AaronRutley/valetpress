@@ -112,13 +112,17 @@ alias vp='function _vp(){
 
 	if [ $1 = "delete" ]; then
 		cd ~/Sites
-		echo "${BOLD}${BOLD}Valet Press, delete a project ${NONE}"
+		echo "${BOLD}${RED}ValetPress, delete a project ${NONE}"
 		ls -d */ | cut -f1 -d'/'
 		echo "${YELLOW}Project Name:${NONE}"
 		read project_name
-		rm -rf $project_name
-		mysql -uroot -e "DROP DATABASE IF EXISTS  $project_name"
-		echo "${GREEN}Sucess: $project_name deleted${NONE}"
+		echo "${BOLD}${RED}Are you sure you want to delete $project_name ? (Y/N)${NONE}"
+		read delete_confirm
+		if [ $delete_confirm = "Y" ]; then
+			rm -rf $project_name
+			mysql -uroot -e "DROP DATABASE IF EXISTS  $project_name"
+			echo "${GREEN}Sucess: $project_name deleted${NONE}"
+		fi
 	fi
 
 	if [ $1 = "help" ]; then

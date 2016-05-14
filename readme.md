@@ -51,7 +51,9 @@ fi
 - (It's best you customise this for your own use)
 
 `vp delete` will
-- Be added later to remove the database and the project directory   
+- Ask for the name of the project you would like to delete
+- Delete the database for that project
+- Delete the directory for that project 
 
 ##  Notes
 
