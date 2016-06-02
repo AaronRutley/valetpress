@@ -1,21 +1,24 @@
+# ValetPress
+
 #styles
-NONE='\033[00m'
-RED='\033[01;31m'
-GREEN='\033[01;32m'
-YELLOW='\033[01;33m'
-PURPLE='\033[01;35m'
-CYAN='\033[01;36m'
-WHITE='\033[01;37m'
-BOLD='\033[1m'
-UNDERLINE='\033[4m'
+VP_NONE='\033[00m'
+VP_RED='\033[01;31m'
+VP_GREEN='\033[01;32m'
+VP_YELLOW='\033[01;33m'
+VP_PURPLE='\033[01;35m'
+VP_CYAN='\033[01;36m'
+VP_WHITE='\033[01;37m'
+VP_BOLD='\033[1m'
+VP_UNDERLINE='\033[4m'
+
 
 # vp create
 alias vp='function _vp(){
 
 	if [ $1 = "create" ]; then
 		cd ~/Sites
-		echo "${BOLD}ValetPress, create new site ${NONE}"
-		echo "${YELLOW}Project Name:${NONE}"
+		echo "${VP_BOLD}ValetPress, create new site ${VP_NONE}"
+		echo "${VP_YELLOW}Project Name:${VP_NONE}"
 		read project_name
 		mkdir "$project_name"
 		cd "$project_name"
@@ -32,23 +35,23 @@ alias vp='function _vp(){
 		wp theme activate "$project_name"
 		wp plugin activate advanced-custom-fields-pro minimal-admin bulk-page-creator simple-page-ordering
 		wp plugin update --all
-		echo "${GREEN}Success:${NONE} Project Created: ${UNDERLINE}http://$project_name.dev/${NONE}"
-		echo "L: ${UNDERLINE}http://$project_name.dev/wp-admin/${NONE}"
+		echo "${VP_GREEN}Success:${VP_NONE} Project Created: ${VP_UNDERLINE}http://$project_name.dev/${VP_NONE}"
+		echo "L: ${VP_UNDERLINE}http://$project_name.dev/wp-admin/${VP_NONE}"
 		echo "U: $project_name"
 		echo "P: password"
-		echo "${GREEN}Success:${NONE} Running NPM install"
+		echo "${VP_GREEN}Success:${VP_NONE} Running NPM install"
 		cd ~/Sites/"$project_name"/wp-content/themes/"$project_name"
 		npm install
-		echo "${GREEN}Success:${NONE} Running Gulp (default)"
+		echo "${VP_GREEN}Success:${VP_NONE} Running Gulp (default)"
 		gulp
 	fi
 
 	if [ $1 = "clone" ]; then
 		cd ~/Sites
-		echo "${BOLD}ValetPress, clone new site from a repo ${NONE}"
-		echo "${YELLOW}Project Name:${NONE}"
+		echo "${VP_BOLD}ValetPress, clone new site from a repo ${VP_NONE}"
+		echo "${VP_YELLOW}Project Name:${VP_NONE}"
 		read project_name
-		echo "${YELLOW}Repo To Clone into wp-content:${NONE}"
+		echo "${VP_YELLOW}Repo To Clone into wp-content:${VP_NONE}"
 		read repo_url
 		mkdir "$project_name"
 		cd "$project_name"
@@ -61,16 +64,16 @@ alias vp='function _vp(){
 		cd wp-content
 		wp plugin update --all
 		wp plugin activate --all
-		echo "${GREEN}Success:${NONE} Project Created: ${UNDERLINE}http://$project_name.dev/${NONE}"
-		echo "L: ${UNDERLINE}http://$project_name.dev/wp-admin/${NONE}"
+		echo "${VP_GREEN}Success:${VP_NONE} Project Created: ${VP_UNDERLINE}http://$project_name.dev/${VP_NONE}"
+		echo "L: ${VP_UNDERLINE}http://$project_name.dev/wp-admin/${VP_NONE}"
 		echo "U: $project_name"
 		echo "P: password"
 	fi
 
 	if [ $1 = "empty" ]; then
 		cd ~/Sites
-		echo "${BOLD}ValetPress, create empty new site${NONE}"
-		echo "${YELLOW}Project Name:${NONE}"
+		echo "${VP_BOLD}ValetPress, create empty new site${VP_NONE}"
+		echo "${VP_YELLOW}Project Name:${VP_NONE}"
 		read project_name
 		mkdir "$project_name"
 		cd "$project_name"
@@ -78,60 +81,60 @@ alias vp='function _vp(){
 		wp core download
 		wp core config --dbname="$project_name" --dbuser=root --dbhost=127.0.0.1
 		wp core install --url="$project_name".dev --title="$project_name".dev --admin_user="$project_name"  --admin_password=password --admin_email=wordpress@wordpress.org
-		echo "${GREEN}Success:${NONE} Project Created: ${UNDERLINE}http://$project_name.dev/${NONE}"
+		echo "${VP_GREEN}Success:${VP_NONE} Project Created: ${VP_UNDERLINE}http://$project_name.dev/${VP_NONE}"
 		wp plugin uninstall hello
 		wp plugin uninstall akismet
 		wp theme delete twentyfifteen
 		wp theme delete twentyfourteen
-		echo "L: ${UNDERLINE}http://$project_name.dev/wp-admin/${NONE}"
+		echo "L: ${VP_UNDERLINE}http://$project_name.dev/wp-admin/${VP_NONE}"
 		echo "U: $project_name"
 		echo "P: password"
 	fi
 
 	if [ $1 = "start" ]; then
 		cd ~/Sites
-		echo "${BOLD}ValetPress, start working on a project ${NONE}"
+		echo "${VP_BOLD}ValetPress, start working on a project ${VP_NONE}"
 		ls -d */ | cut -f1 -d'/'
-		echo "${YELLOW}Project Name:${NONE}"
+		echo "${VP_YELLOW}Project Name:${VP_NONE}"
 		read project_name
 		cd $project_name
-		echo "${YELLOW}Backing up database ${NONE}"
+		echo "${VP_YELLOW}Backing up database ${VP_NONE}"
 		wp db export
-		echo "${YELLOW}Updating WordPres and Plugins${NONE}"
+		echo "${VP_YELLOW}Updating WordPres and Plugins${VP_NONE}"
 		wp plugin update --all
-		echo "${YELLOW}Git Status:${NONE}"
+		echo "${VP_YELLOW}Git Status:${VP_NONE}"
 		cd wp-content/
 		git status -s
 		cd themes/$project_name
-		echo "${YELLOW}Open Theme Atom & Run Gulp${NONE}"
+		echo "${VP_YELLOW}Open Theme Atom & Run Gulp${VP_NONE}"
 		atom . && gulp
-		echo "${YELLOW}Open Broser:${NONE} ${UNDERLINE}http://$project_name.dev/${NONE}"
+		echo "${VP_YELLOW}Open Broser:${VP_NONE} ${VP_UNDERLINE}http://$project_name.dev/${VP_NONE}"
 		open http://$project_name.dev/
-		echo "${GREEN}Sucess: Project Started${NONE}"
+		echo "${VP_GREEN}Sucess: Project Started${VP_NONE}"
 	fi
 
 	if [ $1 = "delete" ]; then
 		cd ~/Sites
-		echo "${BOLD}${RED}ValetPress, delete a project ${NONE}"
+		echo "${VP_BOLD}${VP_RED}ValetPress, delete a project ${VP_NONE}"
 		ls -d */ | cut -f1 -d'/'
-		echo "${YELLOW}Project Name:${NONE}"
+		echo "${VP_YELLOW}Project Name:${VP_NONE}"
 		read project_name
-		echo "${BOLD}${RED}Are you sure you want to delete $project_name ? (Y/N)${NONE}"
+		echo "${VP_BOLD}${VP_RED}Are you sure you want to delete $project_name ? (Y/N)${VP_NONE}"
 		read delete_confirm
 		if [ $delete_confirm = "Y" ]; then
 			rm -rf $project_name
 			mysql -uroot -e "DROP DATABASE IF EXISTS  \`$project_name\`"
-			echo "${GREEN}Sucess: $project_name deleted${NONE}"
+			echo "${VP_GREEN}Sucess: $project_name deleted${VP_NONE}"
 		fi
 	fi
 
 	if [ $1 = "help" ]; then
-		echo "${YELLOW}ValetPress Commands:${NONE}"
-		echo "${BOLD} vp empty${NONE}  to create a empty WP site with the 2016 theme"
-		echo "${BOLD} vp create${NONE} to create a WP site from your starter git repo"
-		echo "${BOLD} vp clone${NONE}  to create a WP site from an existing git repo"
-		echo "${BOLD} vp start${NONE}  to start working on an existing project / theme"
-		echo "${BOLD} vp delete${NONE} to delete an existing WP project"
+		echo "${VP_YELLOW}ValetPress Commands:${VP_NONE}"
+		echo "${VP_BOLD} vp empty${VP_NONE}  to create a empty WP site with the 2016 theme"
+		echo "${VP_BOLD} vp create${VP_NONE} to create a WP site from your starter git repo"
+		echo "${VP_BOLD} vp clone${VP_NONE}  to create a WP site from an existing git repo"
+		echo "${VP_BOLD} vp start${VP_NONE}  to start working on an existing project / theme"
+		echo "${VP_BOLD} vp delete${VP_NONE} to delete an existing WP project"
 	fi
 
 };_vp'
