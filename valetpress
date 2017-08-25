@@ -85,7 +85,6 @@ alias vp='function _vp(){
 		wp plugin uninstall hello
 		wp plugin uninstall akismet
 		wp theme delete twentyfifteen
-		wp theme delete twentyfourteen
 		echo "L: ${VP_UNDERLINE}http://$project_name.dev/wp-admin/${VP_NONE}"
 		echo "U: $project_name"
 		echo "P: password"
@@ -113,6 +112,34 @@ alias vp='function _vp(){
 		echo "${VP_GREEN}Sucess: Project Started${VP_NONE}"
 	fi
 
+	if [ $1 = "envato" ]; then
+		cd ~/Sites
+		echo "${VP_BOLD}ValetPress, create new WordPress site.${VP_NONE}"
+		echo "${VP_YELLOW}ThemeForest Theme ID:${VP_NONE}"
+		read project_name
+		mkdir "$project_name"
+		cd "$project_name"
+		mysql -uroot -e "create database \`$project_name\`"
+		wp core download
+		wp core config --dbname="$project_name" --dbuser=root --dbhost=127.0.0.1
+		wp core install --url="$project_name".dev --title="$project_name".dev --admin_user="$project_name" --admin_password=password --admin_email=wordpress@wordpress.org
+		echo "${VP_GREEN}Success:${VP_NONE} Project Created: ${VP_UNDERLINE}http://$project_name.dev/${VP_NONE}"
+		wp plugin uninstall hello
+		wp plugin uninstall akismet
+		wp plugin install ~/sites/envato-theme-test/wp-content/plugins/envato-theme-test.zip --activate
+		wp plugin install ~/sites/envato-theme-test/wp-content/plugins/auto-login.zip --activate
+		wp theme delete twentysixteen
+		wp theme delete twentyfifteen
+		themepath=~/Google\ Drive/themes/"$project_name".zip
+		wp theme install $themepath --activate
+		echo "L: ${VP_UNDERLINE}http://$project_name.dev/wp-login.php${VP_NONE}"
+		echo "U: $project_name"
+		echo "P: password"
+		wp themeforest check $project_name
+		wp tgmpa-plugin install --all
+		wp tgmpa-plugin activate --all
+	fi
+
 	if [ $1 = "delete" ]; then
 		cd ~/Sites
 		echo "${VP_BOLD}${VP_RED}ValetPress, delete a project ${VP_NONE}"
@@ -130,11 +157,19 @@ alias vp='function _vp(){
 
 	if [ $1 = "help" ]; then
 		echo "${VP_YELLOW}ValetPress Commands:${VP_NONE}"
-		echo "${VP_BOLD} vp empty${VP_NONE}  to create a empty WP site with the 2016 theme"
+		echo "${VP_BOLD} vp empty${VP_NONE}  to create a empty WP site with the default theme"
 		echo "${VP_BOLD} vp create${VP_NONE} to create a WP site from your starter git repo"
 		echo "${VP_BOLD} vp clone${VP_NONE}  to create a WP site from an existing git repo"
 		echo "${VP_BOLD} vp start${VP_NONE}  to start working on an existing project / theme"
+		echo "${VP_ENVATO} vp envato${VP_NONE} to create a new WP site with an TF Theme"
 		echo "${VP_BOLD} vp delete${VP_NONE} to delete an existing WP project"
 	fi
 
 };_vp'
+
+
+
+
+
+
+
